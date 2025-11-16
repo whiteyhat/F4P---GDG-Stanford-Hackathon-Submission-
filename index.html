@@ -4,7 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jennifer Chuks - Web Designer</title>
+    <title>F4P - GDG Stanford Hackathon</title>
+    <meta name="description" content="Revolutionary in-game agentic payments powered by Gemini 2.5 Flash. Turn friends into instant payment rails inside any game. No wallets, no fees, just vibes." />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="F4P - GDG Stanford Hackathon" />
+    <meta property="og:description" content="Revolutionary in-game agentic payments powered by Gemini 2.5 Flash. Turn friends into instant payment rails inside any game. No wallets, no fees, just vibes." />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="F4P - GDG Stanford Hackathon" />
+    <meta property="twitter:description" content="Revolutionary in-game agentic payments powered by Gemini 2.5 Flash. Turn friends into instant payment rails inside any game. No wallets, no fees, just vibes." />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +24,13 @@
     <style>
       body {
         font-family: 'Inter', sans-serif;
+      }
+      @keyframes marquee-right {
+        from { transform: translateX(-50%); }
+        to { transform: translateX(0); }
+      }
+      .animate-marquee-right {
+        animation: marquee-right 10s linear infinite;
       }
     </style>
   <script type="importmap">
@@ -26,5 +45,6 @@
 </head>
   <body class="bg-gray-100 text-gray-800">
     <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
   </body>
 </html>

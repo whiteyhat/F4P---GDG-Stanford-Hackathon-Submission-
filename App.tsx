@@ -1,5 +1,8 @@
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+// Add this declaration for the global JSConfetti object from the CDN script
+declare const JSConfetti: any;
 
 // --- SVG Icons ---
 const CreeperIcon = () => (
@@ -21,26 +24,108 @@ const ArrowRightIcon = () => (
 
 const LiveDotIcon = () => <div className="w-4 h-4 bg-green-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.9)] animate-pulse"></div>;
 
-
-const Header = () => (
-  <header className="sticky top-0 z-50 bg-gray-100/80 backdrop-blur-sm">
-    <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black rounded-lg"></div>
-        <span className="font-bold text-xl text-gray-900">F4P</span>
-      </div>
-      <nav className="flex items-center gap-4">
-        <a href="https://dory-x402-gemini-1079989770684.europe-west1.run.app/agents/doryAgent/chat/e9a0209c-f376-4cf1-8226-8488e5168049" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors">
-          LIVE DEMO
-        </a>
-      </nav>
-    </div>
-  </header>
+const GithubIcon = () => (
+    <svg viewBox="0 0 16 16" fill="currentColor" className="w-6 h-6" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+    </svg>
 );
 
+const WinnerStamp = () => (
+    <a
+        href="https://www.linkedin.com/posts/dan-goncharov_yesterdays-build-with-gemini-win-up-activity-7395918043735859200-exMe/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed top-8 right-[-105px] z-[100] w-80 py-2 transform rotate-45 bg-amber-400 text-black text-sm font-extrabold uppercase tracking-wider text-center shadow-lg hover:bg-amber-500 transition-colors duration-300 ease-in-out overflow-hidden"
+        aria-label="View Hackathon Winner announcement on LinkedIn"
+    >
+       <div className="whitespace-nowrap animate-marquee-right">
+            <span className="mx-4">HACKATHON WINNER: STANFORD x GOOGLE</span>
+            <span className="mx-4">HACKATHON WINNER: STANFORD x GOOGLE</span>
+       </div>
+    </a>
+);
+
+
+const Header = () => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setIsDropdownOpen(false);
+          }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef]);
+
+    return (
+        <header className="sticky top-0 z-50 bg-gray-100/80 backdrop-blur-sm">
+            <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-black rounded-lg"></div>
+                    <span className="font-bold text-xl text-gray-900">F4P</span>
+                </div>
+                <nav className="flex items-center gap-4">
+                    <div className="relative" ref={dropdownRef}>
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="text-gray-600 hover:text-gray-900 transition-colors p-2 rounded-full hover:bg-gray-200"
+                            aria-label="Open GitHub links"
+                        >
+                            <GithubIcon />
+                        </button>
+                        {isDropdownOpen && (
+                            <div className="absolute right-0 mt-2 w-72 origin-top-right bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                                <div className="py-1">
+                                    <a
+                                        href="https://github.com/friends4payments/dory-x402-gemini"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 font-medium"
+                                    >
+                                        Gemini Agentic Payments
+                                    </a>
+                                    <a
+                                        href="https://github.com/whiteyhat/F4P---GDG-Stanford-Hackathon-Submission-"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 font-medium"
+                                    >
+                                        Hackathon Submission Project
+                                    </a>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <a href="https://dory-x402-gemini-1079989770684.europe-west1.run.app/agents/doryAgent/chat/e9a0209c-f376-4cf1-8226-8488e5168049" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors">
+                        LIVE DEMO
+                    </a>
+                </nav>
+            </div>
+        </header>
+    );
+};
+
 const App = () => {
+  useEffect(() => {
+    // Check if the library is loaded before using it
+    if (typeof JSConfetti !== 'undefined') {
+      const jsConfetti = new JSConfetti();
+      jsConfetti.addConfetti({
+        emojis: ['🏆'],
+        confettiNumber: 70,
+        emojiSize: 50,
+      });
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   return (
     <div>
+      <WinnerStamp />
       <Header />
       <main className="container mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -48,21 +133,16 @@ const App = () => {
           {/* Left Column */}
           <div className="lg:col-span-1 flex flex-col gap-6">
             {/* Profile Card */}
-            <div className="rounded-3xl overflow-hidden shadow-sm">
-              <div className="bg-gray-900 h-80">
-                <iframe 
-                    className="w-full h-full"
-                    src="https://www.youtube.com/embed/Ip8j3vjuoxs?si=m-Rqyi2NEW7XQTve" 
-                    title="YouTube video player" 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    referrerPolicy="strict-origin-when-cross-origin" 
-                    allowFullScreen>
-                </iframe>
-              </div>
-              <div className="bg-yellow-400 p-8">
-                <h2 className="text-5xl font-bold text-gray-900">Web Designer</h2>
-              </div>
+            <div className="rounded-3xl overflow-hidden shadow-sm h-80 bg-gray-900">
+              <iframe 
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/Ip8j3vjuoxs?autoplay=1&mute=1&loop=1&playlist=Ip8j3vjuoxs&controls=1&si=m-Rqyi2NEW7XQTve" 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen>
+              </iframe>
             </div>
             
             {/* Testimonial Card */}
@@ -140,7 +220,7 @@ const App = () => {
 
             {/* Bottom Row: Project Description */}
             <a 
-              href="https://github.com/friends4payments/dory-x402-gemini/commit/af524b4bdec322a0bc942636bc76722726ae485"
+              href="https://github.com/friends4payments/dory-x402-gemini/commit/af5246b4bdec322a0bc942636bc76722726ae485"
               target="_blank"
               rel="noopener noreferrer"
               className="group block bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
